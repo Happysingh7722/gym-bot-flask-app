@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💪 Gym Bot - Your Personal Diet Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💪 Gym Bot</h1>
+            <p>Your Personal AI Diet & Fitness Planner</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-box">
+                <h3>🎯 What You'll Get:</h3>
+                <ul>
+                    <li>Personalized BMI analysis</li>
+                    <li>Custom diet plan (Veg/Non-Veg)</li>
+                    <li>Detailed meal breakdown with calories</li>
+                    <li>Expert fitness tips</li>
+                </ul>
+            </div>
+
+            <form method="POST" action="/calculate">
+                <div class="form-group">
+                    <label for="name">👤 Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">🎂 Age</label>
+                        <input type="number" id="age" name="age" min="10" max="100" required placeholder="25">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">⚧ Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="height_feet">📏 Height (Feet)</label>
+                        <input type="number" id="height_feet" name="height_feet" min="1" max="8" required
+                            placeholder="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="height_inch">📏 Height (Inches)</label>
+                        <input type="number" id="height_inch" name="height_inch" min="0" max="11" required
+                            placeholder="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight">⚖️ Weight (in kg)</label>
+                        <input type="number" id="weight" name="weight" step="0.1" min="20" max="300" required
+                            placeholder="70">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="diet_type">🥗 Diet Preference</label>
+                    <select id="diet_type" name="diet_type" required>
+                        <option value="">Select Diet Type</option>
+                        <option value="veg">🌱 Vegetarian</option>
+                        <option value="nonveg">🍗 Non-Vegetarian</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    🚀 Get My Personalized Diet Plan
+                </button>
+            </form>
+
+            <div class="info-box" style="margin-top: 30px;">
+                <h3>📋 Instructions:</h3>
+                <p><strong>Height:</strong> Enter in feet </p>
+                <p><strong>Weight:</strong> Enter your current weight in kilograms</p>
+                <p><strong>Diet:</strong> Choose vegetarian for plant-based meals, non-vegetarian for meat-inclusive
+                    plans</p>
+            </div>
+        </div>
+    </div>
+    <footer
+        style="text-align:center; padding:15px; background:#f0f0f0; color:#555; font-size:0.9rem; border-top:1px solid #ddd; margin-top:40px;">
+        Created by 
+    </footer>
+
+</body>
+
+</html

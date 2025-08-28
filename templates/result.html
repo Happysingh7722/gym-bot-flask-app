@@ -1,0 +1,384 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Personalized Diet Plan</title>
+</head>
+<body>
+    <h1>Diet Plan for {{ result.name }}</h1>
+
+    <h2>BMI Analysis</h2>
+    <p>BMI: {{ result.bmi }}</p>
+    <p>Category: {{ result.bmi_category }}</p>
+
+    <h2>Daily Protein Recommendation</h2>
+    <p>You need <strong>{{ result.recommended_protein }}g</strong> protein per day based on your weight and fitness goal.</p>
+
+    {% if result.diet_plan.meals %}
+        <h2>Your Diet Plan ({{ result.diet_type }})</h2>
+        {% for meal, foods in result.diet_plan.meals.items() %}
+            <h3>
+                {% if meal == 'breakfast' %}Breakfast{% endif %}
+                {% if meal == 'mid_morning' %}Mid-Morning Snack{% endif %}
+                {% if meal == 'lunch' %}Lunch{% endif %}
+                {% if meal == 'evening' %}Evening Snack{% endif %}
+                {% if meal == 'dinner' %}Dinner{% endif %}
+            </h3>
+            <ul>
+                {% for food, protein in foods %}
+                    <li>{{ food }} ({{ protein }}g protein)</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+
+        <h2>Expert Tips</h2>
+        <ul>
+            {% for tip in result.diet_plan.tips %}
+                <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No diet plan available for your current parameters.</p>
+    {% endif %}
+
+    <a href="/">Start Over</a>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💪 Your Personalized Diet Plan - Gym Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .info-item p {
+            opacity: 0.9;
+        }
+
+        .bmi-status {
+            background: #fff;
+            border: 3px solid;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .bmi-status.underweight { border-color: #74b9ff; color: #0984e3; }
+        .bmi-status.normal { border-color: #00b894; color: #00a085; }
+        .bmi-status.overweight { border-color: #fdcb6e; color: #e17055; }
+        .bmi-status.obese { border-color: #e17055; color: #d63031; }
+
+        .diet-plan {
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .diet-header {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .diet-content {
+            padding: 30px;
+        }
+
+        .meal-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .meal-section h3 {
+            color: #2d3436;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .meal-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .meal-section li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+        }
+
+        .meal-section li:last-child {
+            border-bottom: none;
+        }
+
+        .meal-section li:before {
+            content: "🍽️";
+            margin-right: 10px;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #a8e6cf 0%, #88d8a3 100%);
+            color: #2d3436;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .tips-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .tips-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-section li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .tips-section li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: transform 0.3s;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .goal-info {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            color: #2d3436;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .user-info {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Your Personalized Diet Plan</h1>
+            <p>Tailored specifically for {{ result.name }}</p>
+        </div>
+
+        <div class="content">
+            <!-- User Information -->
+            <div class="user-info">
+                <div class="info-item">
+                    <h3>👤 {{ result.name }}</h3>
+                    <p>{{ result.age }} years • {{ result.gender }}</p>
+                </div>
+                <div class="info-item">
+                    <h3>📏 {{ result.height }}m</h3>
+                    <p>Height</p>
+                </div>
+                <div class="info-item">
+                    <h3>⚖️ {{ result.weight }}kg</h3>
+                    <p>Weight</p>
+                </div>
+                <div class="info-item">
+                    <h3>🥗 {{ result.diet_type }}</h3>
+                    <p>Diet Preference</p>
+                </div>
+            </div>
+
+            <!-- BMI Status -->
+            <div class="bmi-status {{ result.bmi_category.lower() }}">
+                <h2>📊 BMI Analysis</h2>
+                <h1>{{ result.bmi }}</h1>
+                <h3>{{ result.bmi_category }}</h3>
+            </div>
+
+            {% if result.diet_plan %}
+            <!-- Diet Plan -->
+            <div class="diet-plan">
+                <div class="diet-header">
+                    <h2>🍽️ Your Custom Diet Plan</h2>
+                </div>
+
+                <div class="diet-content">
+                    <!-- Goal Information -->
+                    <div class="goal-info">
+                        <h3>🎯 Goal: {{ result.diet_plan.goal }}</h3>
+                        <p><strong>Daily Target Calories:</strong> {{ result.diet_plan.daily_calories }}</p>
+                    </div>
+
+                    <!-- Breakfast -->
+                    <div class="meal-section">
+                        <h3>🌅 Breakfast</h3>
+                        <ul>
+                            {% for item in result.diet_plan.breakfast %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Mid Morning -->
+                    <div class="meal-section">
+                        <h3>☕ Mid-Morning Snack</h3>
+                        <ul>
+                            {% for item in result.diet_plan.mid_morning %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Lunch -->
+                    <div class="meal-section">
+                        <h3>🍛 Lunch</h3>
+                        <ul>
+                            {% for item in result.diet_plan.lunch %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Evening -->
+                    <div class="meal-section">
+                        <h3>🍵 Evening Snack</h3>
+                        <ul>
+                            {% for item in result.diet_plan.evening %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Dinner -->
+                    <div class="meal-section">
+                        <h3>🌙 Dinner</h3>
+                        <ul>
+                            {% for item in result.diet_plan.dinner %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Tips -->
+                    <div class="tips-section">
+                        <h3>💪 Expert Tips for Success</h3>
+                        <ul>
+                            {% for tip in result.diet_plan.tips %}
+                            <li>{{ tip }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="meal-section">
+                <h3>❌ Diet Plan Not Available</h3>
+                <p>Sorry, we couldn't generate a diet plan for your current parameters. Please try again with different values.</p>
+            </div>
+            {% endif %}
+
+            <a href="{{ url_for('index') }}" class="back-btn">
+                🔄 Calculate Again
+            </a>
+        </div>
+    </div>
+</body>
+</html>

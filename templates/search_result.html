@@ -1,0 +1,62 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results - Gym Bot</title>
+</head>
+<body>
+    <h1>Search Results for "{{ search_name }}"</h1>
+    {% if entries %}
+        {% for entry in entries %}
+            <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+                <p>Name: {{ entry.name }}</p>
+                <p>Age: {{ entry.age }}</p>
+                <p>Gender: {{ entry.gender }}</p>
+                <p>Height: {{ entry.height }} inches</p>
+                <p>Weight: {{ entry.weight }} kg</p>
+                <p>BMI: {{ entry.bmi }}</p>
+                <p>Category: {{ entry.bmi_category }}</p>
+                <p>Diet Type: {{ entry.diet_type }}</p>
+                <p>Recommended Protein: {{ entry.recommended_protein }}g</p>
+                <p>Estimated Protein Intake: {{ entry.protein_total }}g</p>
+                <p>Date Entered: {{ entry.entry_date }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No entries found for "{{ search_name }}".</p>
+    {% endif %}
+    <a href="/search">Search Again</a> | <a href="/">Go Home</a>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Search Results - Gym Bot</title>
+</head>
+
+<body>
+  <h1>Results for "{{ search_name }}"</h1>
+  {% if entries %}
+  {% for entry in entries %}
+  <div style="border:1px solid #ccc; margin:12px; padding:10px;">
+    <p>Name: {{ entry.name }}</p>
+    <p>Age: {{ entry.age }}</p>
+    <p>Gender: {{ entry.gender }}</p>
+    <p>Height: {{ entry.height }} m</p>
+    <p>Weight: {{ entry.weight }} kg</p>
+    <p>BMI: {{ entry.bmi }}</p>
+    <p>BMI Category: {{ entry.bmi_category }}</p>
+    <p>Diet Type: {{ entry.diet_type }}</p>
+    <p>Recommended Protein: {{ entry.recommended_protein }}g</p>
+    <p>Estimated Protein: {{ entry.protein_total }}g</p>
+    <p>Date: {{ entry.entry_date }}</p>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>No entries found for "{{ search_name }}".</p>
+  {% endif %}
+  <a href="/search">Search again</a>
+  <a href="/">Go to Home</a>
+</body>
+
+</html>
